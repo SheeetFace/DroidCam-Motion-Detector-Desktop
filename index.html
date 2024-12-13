@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>DroidCam Motion Detector</title>
+    <style> 
+     body { background: #121313 } 
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img id="video-frame">
+      <canvas id="canvasOutput" style="display:none;"></canvas>
+
+      <div class="loader">
+          <div>
+              <span id="connecting"></span>
+          </div>
+      </div>
+
+      <div class="not-camera-url-alert">
+        <span>The URL of the camera is not set. Please go to the settings (⚙) and specify the Camera URL.</span>
+      </div>
+      
+      <div class="connection-lost">
+              <span>Connection Lost</span>
+      </div>
+
+      <div class="motion-indicator"></div>
+       
+      <div class="battery-container">
+        <div class="battery">
+          <div class="battery-level"></div>
+          <div class="battery-text"></div>
+        </div>
+      </div>
+      
+      <button id="settings" class="settings" data-tts="down" aria-label="Settings">
+          <span>⚙</span>
+      </button>
+
+      <button id="pin-button" class="pin-button" data-tts="down" aria-label="Pin Window">
+          <span>📌</span>
+      </button>
+
+      <div class="droidcam-controls-panel">
+        <div class="droidcam-controls-panel-container">
+          <div>
+            <div class="droidcam-controls-panel-wrapper">
+              <button class="flashlight-button" data-tts="up" aria-label="Flashlight">
+                <span>🔦</span>
+              </button>
+
+              <button class="screenshot-button" data-tts="up" aria-label="Take a picture (saved on your phone)">
+                <span>📷</span>
+              </button>
+
+              <button class="auto-focus-button" data-tts="up" aria-label="Auto Focus">
+                <div class="auto-focus-button-wrapper">
+                  <span>AF</span>
+                </div>
+              </button>
+
+              <button class="zoomin-button" data-tts="up" aria-label="Zoom In">
+                <span class="icon-magnifier">🔍</span>
+                <span class="icon-magnifier-symbol">+</span>
+              </button>
+
+              <button class="zoomout-button" data-tts="up" aria-label="Zoom Out">
+                <span class="icon-magnifier">🔍</span>
+                <span class="icon-magnifier-symbol">-</span>
+              </button>
+
+              <input id="checkbox" type="checkbox"/>
+              <label class="switch" for="checkbox" data-tts="up" aria-label="Toggle Motion">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="slider">
+                    <path
+                    d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7 14.3 32 32 32s32-14.3 32-32V32zM143.5 120.6c13.6-11.3 15.4-31.5 4.1-45.1s-31.5-15.4-45.1-4.1C49.7 115.4 16 181.8 16 256c0 132.5 107.5 240 240 240s240-107.5 240-240c0-74.2-33.8-140.6-86.6-184.6c-13.6-11.3-33.8-9.4-45.1 4.1s-9.4 33.8 4.1 45.1c38.9 32.3 63.5 81 63.5 135.4c0 97.2-78.8 176-176 176s-176-78.8-176-176c0-54.4 24.7-103.1 63.5-135.4z"
+                    ></path>
+                </svg>
+              </label>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="droidcam-controls-button">
+        <span>︽ DroidCam Controls ︽</span>
+      </button>
+
+    </div>
+
+    <!-- Settings overlay -->
+    <div id="settings-container" class="settings-container">
+      <div id="settings-content">
+        <button id="close-settings-btn">
+            <span class="close-icon">❌</span>
+        </button>
+        
+        <div class="support-project">
+            <a id="link-item" class="support-link" href="https://ko-fi.com/sheeetface">
+              <img class="support-icon" src="/src/assets/icons/ko-fi.webp"/>
+              Support me on Ko-fi
+            </a>
+
+            <a id="link-item" class="support-link" href="https://opencollective.com/">
+              <img class="support-icon" src="/src/assets/icons/opencollective.webp"/>
+              Support Project on Open Collective
+            </a>
+        </div>
+
+        <div class="new-version-available">
+          <label>
+            🚀 New version of the app is available! 🚀 
+            <br/>
+            We are pleased to announce the release of a new version of our app. 
+          </label>
+          <br/>
+          <a id="link-item" href="#">Visit our website</a>
+        </div>
+
+        <h3>Camera URL</h3>
+        <div>
+            <div class="wrapper-url">
+                <label for="url-input">http://</label>
+                <input type="text" id="base-url" data-group="camera" placeholder="192.168.0.107">
+                <label for="port-input">:</label>
+                <input type="number" id="port-input" data-group="camera" placeholder="4747" min="1" max="65535">
+                <label>/video</label>
+            </div>
+            <div id="info-notice">
+              <div>
+                <span>Enter the IP and PORT from the DroidCam app on your phone.</span>
+              </div>
+            </div>
+            <button id="apply-new-url-btn">APPLY NEW URL</button>
+        </div>
+
+        <h3>Reset settings</h3>
+        <div class="div-container">
+            <button id="reset-settings-btn">Reset settings</button>
+            <span class="description">Reset all settings to default values, except for integration data and camera URLs</span>
+        </div>
+        
+        <h3>Motions</h3>
+        <div class="div-container">
+            <label for="movementThreshold">Movement Threshold: <span id="movementThreshold-value">1</span></label>
+            <input type="range" id="movementThreshold" min="1" max="1000" value="1" step="1">
+            <span class="description">Sets the minimum movement size for an object to be considered moving</span>
+        </div>
+        <div class="div-container">
+            <label for="distanceThreshold">Distance Threshold: <span id="distanceThreshold-value">100</span></label>
+            <input type="range" id="distanceThreshold" min="10" max="1000" value="100" step="10">
+            <span class="description">This setting determines the minimum distance between borders at which they should be merged into one. The smaller the value, the closer the objects can be to each other to be considered as one.</span>
+        </div>
+        <div class="div-container">
+            <label for="frameSkip">Frame Skip: <span id="frameSkip-value">4</span></label>
+            <input type="range" id="frameSkip" min="2" max="20" value="4">
+            <span class="description">Number of frames to skip between processing for performance improvement</span>
+        </div>
+
+        <h3>Image Adjustments</h3>
+        <div class="div-container">
+            <label for="brightness">Brightness: <span id="brightness-value">0</span></label>
+            <input type="range" id="brightness" min="0" max="100" value="0">
+        </div>
+        <div class="div-container">
+            <label for="contrast">Contrast: <span id="contrast-value">0</span></label>
+            <input type="range" id="contrast" min="0" max="100" value="0">
+        </div>
+        <div class="div-container">
+            <label for="sharpness">Sharpness: <span id="sharpness-value">0</span></label>
+            <input type="range" id="sharpness" min="0" max="10" value="0">
+        </div>
+
+        <h3>Notifications</h3>
+        <div class="div-container">
+            <label for="alertInterval">Alert Interval: 
+                <span id="alertInterval-value">1 sec</span>
+            </label>
+            <input type="range" id="alertInterval" min="1000" max="300000" value="1000" step="1000">
+        </div>
+        <div class="div-container">
+            <label for="alertVolume">Alert Volume: <span id="alertVolume-value">100</span></label>
+            <input type="range" id="alertVolume" min="0" max="100" value="100" step="10">
+        </div>
+
+        <h3>Styles</h3>
+        <div class="div-container">
+          <div class="color-range">
+            <div>
+              <label for="range-red" class="range-red-label">Red</label>
+              <input type="range" id="range-red" min="0" max="255" value="0">
+              
+              <label for="range-green" class="range-green-label">Green</label>
+              <input type="range" id="range-green" min="0" max="255" value="255">
+              
+              <label for="range-blue" class="range-blue-label">Blue</label>
+              <input type="range" id="range-blue" min="0" max="255" value="0">
+            </div>
+
+            <div class="border-color-tracking"></div>
+            
+          </div>  
+          <span class="description">Adjust the border color for object tracking in the camera</span>
+        </div>
+
+        <div class="div-container">
+          <label for="borderThickness">Border Thickness: <span id="borderThickness-value">2</span></label>
+          <input type="range" id="borderThickness" min="1" max="2" value="2" step="1">
+          <span class="description">Adjust the thickness of the border: <br/> 1 - thin, 2 - thick</span>
+        </div>
+        
+        <h3>Integrations</h3>
+        <div class="div-container">
+          <div class="wrapper-integrations">
+
+            <div class="wrapper-integrations-discord">
+              <div class="wrapper-integrations-header">
+                <span class="discord-name">DISCORD</span>
+                <div class="checkbox-wrapper-9">
+                  <input class="tgl tgl-flat" id="cb4-9-discord" type="checkbox"/>
+                  <label class="tgl-btn" for="cb4-9-discord"></label>
+                </div>
+              </div>
+
+              <br/>
+
+              <div class="wrapper-integrations-body-discord">
+                <div class="notification-url-container">
+                  <input type="password" 
+                         id="notification-url-input-discord" 
+                         placeholder="Discord Webhook URL"
+                         data-group="discord"
+                      >
+                  <button class="apply-notification-url-discord" disabled>Apply</button>
+                </div>
+
+                <div class="instruction-link">
+                  <a id="link-item" href="https://droidcam-motion-detector.web.app/integrations">Instructions on how to integrate correctly</a>
+                </div>
+                
+                <br/>
+                <div class="notification-type-container-discord"> 
+                  <div class="notification-type-discord">
+                    <span>SNAPSHOT</span>
+                  </div>
+
+                  <br/>
+
+                  <!-- <div class="wrapper-integrations-header">
+                    <label>Receive Snapshot Notifications</label>
+                    <input type="checkbox"/>
+                  </div>
+
+                  <br/> -->
+
+                  <label>Send Snapshot Every:</label>
+                  <span id="discord-interval-value">1 sec</span>
+                  <input type="range" id="integrations" class="integrations-discord" min="1000" max="300000" value="1000" step="1000">
+                </div>
+               
+                <!-- <br/>
+                <div class="notification-type-container-discord">
+                  <div class="notification-type-discord">
+                    <span>VIDEO</span>
+                  </div>
+
+                  <br/>
+
+                  <div class="wrapper-integrations-header">
+                    <label>Receive Video Notifications</label>
+                    <input type="checkbox"/>
+                  </div>
+
+                  <br/>
+
+                  <label>Video Duration: </label>
+                  <span >1 sec</span>
+                  <input type="range" id="" min="1000" max="300000" value="1000" step="1000">
+
+                  <br/>
+
+                  <label>Send new video every (after last one is sent):</label>
+                  <span >1 sec</span>
+                  <input type="range" id="" min="1000" max="300000" value="1000" step="1000">
+                </div> -->
+              </div>
+            </div>
+
+            <div class="wrapper-integrations-telegram">
+              <div class="wrapper-integrations-header">
+                <span class="telegram-name">TELEGRAM</span>
+                <div class="checkbox-wrapper-9">
+                  <input class="tgl tgl-flat" id="cb4-9-telegram" type="checkbox"/>
+                  <label class="tgl-btn" for="cb4-9-telegram"></label>
+                </div>
+              </div>
+
+              <br/>
+
+              <div class="wrapper-integrations-body-telegram">
+                <div class="notification-url-container">
+                  <input type="password"
+                         id="notification-url-input-telegram-bot-token"
+                         placeholder="TELEGRAM BOT TOKEN"
+                         data-group="telegram"
+                    >
+                  <input type="password" 
+                         id="notification-url-input-telegram-chat-id" 
+                         placeholder="YOUR CHAT ID"
+                         data-group="telegram"
+                  >
+                  <button class="apply-notification-url-telegram" disabled>Apply</button>
+                </div>
+
+                <div class="instruction-link">
+                  <a id="link-item" href="https://droidcam-motion-detector.web.app/integrations">Instructions on how to integrate correctly</a>
+                </div>
+                
+                <br/>
+                <div class="notification-type-container-telegram"> 
+                  <div class="notification-type-telegram">
+                    <span>SNAPSHOT</span>
+                  </div>
+                  <!-- <br/>
+                  <div class="wrapper-integrations-header">
+                    <label>Receive Snapshot Notifications</label>
+                    <input type="checkbox"/>
+                  </div> -->
+
+                  <br/>
+
+                  <label>Send Snapshot Every:</label>
+                  <span id="telegram-interval-value">1 sec</span>
+                  <input type="range" id="integrations" class="integrations-telegram" min="1000" max="300000" value="1000" step="1000">
+                </div>
+               
+                <!-- <br/>
+                <div class="notification-type-container-telegram">
+                  <div class="notification-type-telegram">
+                    <span>VIDEO</span>
+                  </div>
+
+                  <br/>
+
+                  <div class="wrapper-integrations-header">
+                    <label>Receive Video Notifications</label>
+                    <input type="checkbox"/>
+                  </div>
+                  
+                  <br/>
+
+                  <label>Video Duration: </label>
+                  <span >1 sec</span>
+                  <input type="range" id="" min="1000" max="300000" value="1000" step="1000">
+
+                  <br/>
+
+                  <label>Send new video every (after last one is sent):</label>
+                  <span >1 sec</span>
+                  <input type="range" id="" min="1000" max="300000" value="1000" step="1000">
+                </div> -->
+              </div>
+
+            </div>
+
+          </div>
+
+          <span class="description">
+            Enable this feature to receive a snapshot whenever motion is detected. You can choose to receive notifications via Telegram or Discord and customize the interval for receiving these alerts.
+          </span>
+            
+        </div>
+        
+        <div class="footer">
+          <div>
+            <label>Version:</label>
+            <label id="app-version">1.0.0</label>
+            
+          </div>
+          <div>
+            <label>Created by SheeetFace</label>
+            <a id="link-item" href="https://github.com/SheeetFace/DroidCam-Motion-Detector-Desktop">GitHub</a>
+          </div>
+        </div>
+      
+      </div>
+    </div>
+    
+    <script type="module" src="/src/renderer.ts"></script>
+    <script type="module" src="/src/settings/settings.ts"></script>
+  </body>
+</html>
