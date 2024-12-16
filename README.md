@@ -1,7 +1,7 @@
 
 ![DroidCam Motion Detector Icon](https://res.cloudinary.com/dof771xd5/image/upload/v1734010889/DroidCamMotionDetector-git_jnntgb.png)
 
-🚨**Transform your smartphone into a motion detection and monitoring system with DroidCam Motion Detector!**🚨  
+**Transform your smartphone into a motion detection and monitoring system with DroidCam Motion Detector!**  
 
 Receive real-time alerts for any activity in your monitored area, and take full advantage of advanced features designed to provide seamless customization and integration.
 
