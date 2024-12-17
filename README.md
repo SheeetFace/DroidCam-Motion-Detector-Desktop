@@ -16,11 +16,13 @@ Receive real-time alerts for any activity in your monitored area, and take full 
 ![GIF](assets-readme/gif1.gif)
 ![GIF](assets-readme/gif2.gif)
 
----
+![Features](https://res.cloudinary.com/dof771xd5/image/upload/f_webp/v1734439934/p9xockttq5klpzzcfugw.webp)
 
-## 🌟 Features
-
-![GIF](assets-readme/gif4f.gif)
+<div align="center">
+  
+  ![GIF](assets-readme/gif4f.gif)
+  
+</div>
 
 ### 🎥 **Motion Monitoring**
 - **Movement Threshold**: Adjust sensitivity to detect even the slightest movements.  
@@ -59,9 +61,7 @@ Receive real-time alerts for any activity in your monitored area, and take full 
 - **Always on Top**: Keep the app visible at all times.  
 - **No Internet Connection Required**: Works locally over Wi-Fi (except for integrations).  
 
----
-
-## 📥 Installation Options
+![Installation Options](https://res.cloudinary.com/dof771xd5/image/upload/f_webp/v1734439938/ugm3qpx2epjl10mpb8wr.webp)
 
 ### **1. Standard Windows Installer**
 - File: `DroidCamMotionDetector-Setup.exe`
@@ -85,22 +85,29 @@ Receive real-time alerts for any activity in your monitored area, and take full 
 [⬇️ **Download RAR (~88MB)**](https://github.com/SheeetFace/DroidCam-Motion-Detector-Desktop/releases/download/v1.0.0/DroidCamMotionDetector-Portable.rar)
 
 
----
-## 📲 Prerequisite: DroidCam App  
+![Prerequisite](https://res.cloudinary.com/dof771xd5/image/upload/f_webp/v1734439942/hclc8gcaeihs3ws4tegr.webp)
 
 To use this application, ensure the **DroidCam** app is installed on your smartphone.  
-[![Download on Google Play](https://res.cloudinary.com/dof771xd5/image/upload/v1733303711/kfl9tjdxsn8hwq4zgero.png)](https://play.google.com/store/apps/developer?id=Dev47Apps)  [![Download on the App Store](https://res.cloudinary.com/dof771xd5/image/upload/v1733303666/h2ikonbnmfpxt070jvyi.png)](https://apps.apple.com/us/developer/dev47apps/id1510258101)  
+<div align="center">
+  
+  [![Download on Google Play](https://res.cloudinary.com/dof771xd5/image/upload/v1733303711/kfl9tjdxsn8hwq4zgero.png)](https://play.google.com/store/apps/developer?id=Dev47Apps)  [![Download on the App Store](https://res.cloudinary.com/dof771xd5/image/upload/v1733303666/h2ikonbnmfpxt070jvyi.png)](https://apps.apple.com/us/developer/dev47apps/id1510258101)  
 
----
+</div>
 
-## 🛠️ Technologies & Setup
+![Technologies](https://res.cloudinary.com/dof771xd5/image/upload/f_webp/v1734439952/dqxzsqppsdk5bm8azfme.webp)
 
-- Built with **Electron Forge** **Vite** **TypeScript** **OpenCV.js**.   
+- **Electron Forge**
+- **Vite** 
+- **TypeScript** 
+- **OpenCV.js**  
 
----
-## ☕ Support the Developer  
-[![Support Me on Ko-fi](https://storage.ko-fi.com/cdn/fullLogoKofi.png)](https://ko-fi.com/sheeetface)  
----
+![Support the Developer](https://res.cloudinary.com/dof771xd5/image/upload/f_webp/v1734439947/veohyn3q64ktl3s9au38.webp)
+
+<div align="center">
+  
+  [![Support Me on Ko-fi](https://storage.ko-fi.com/cdn/fullLogoKofi.png)](https://ko-fi.com/sheeetface)  
+  
+</div>
 
 ## 📝 License
 
